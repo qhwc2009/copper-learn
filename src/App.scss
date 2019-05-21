@@ -1,0 +1,19 @@
+.app {
+  display: flex;
+  height: 200px;
+  align-items: stretch;
+  .half-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .upload-input-label {
+      border: 1px solid #eaeaea;
+      border-radius: 4px;
+      padding: 8px;
+      .base-upload-input {
+        display: none;
+      }
+    }
+  }
+}
