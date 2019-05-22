@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import ClassCropperModal from './ClassCropperModal/ClassCropperModal'
+import HooksCropperModal from './HooksCropperModal/HooksCropperModal'
 
 import './App.scss'
 
@@ -15,7 +16,10 @@ class App extends Component {
       hooksModalVisible: false,
 
       classModalFile: null,
-      hooksModalFile: null
+      hooksModalFile: null,
+
+      classResultImgUrl: null,
+      hooksResultImgUrl: null
     }
   }
 
@@ -40,15 +44,48 @@ class App extends Component {
     }
   }
 
-  handleHooksFileChange = e => {}
+  handleHooksFileChange = e => {
+    const file = e.target.files[0]
+
+    if (file) {
+      if (file.size <= MAX_FILE_SIZE) {
+        this.setState(
+          {
+            hooksModalFile: file // 先把上传的文件暂存在state中
+          },
+          () => {
+            this.setState({
+              hooksModalVisible: true // 然后弹出modal
+            })
+          }
+        )
+      } else {
+        console.log('文件过大')
+      }
+    }
+  }
+
+  handleGetResultImgUrl = key => blob => {
+    const str = URL.createObjectURL(blob)
+    this.setState({
+      [key]: str
+    })
+  }
 
   render() {
-    const { classModalVisible, classModalFile } = this.state
+    const {
+      classModalVisible,
+      classModalFile,
+      hooksModalVisible,
+      hooksModalFile,
+      classResultImgUrl,
+      hooksResultImgUrl
+    } = this.state
     return (
       <div className="app">
         <div className="half-area">
           <label className="upload-input-label">
-            <span>(class形式的conponent)添加图片</span>
+            <span>(class形式的component)添加图片</span>
             <input
               type="file"
               accept="image/jpeg,image/jpg,image/png"
@@ -56,10 +93,19 @@ class App extends Component {
               onChange={this.handleClassFileChange}
             />
           </label>
+          <div className="img-container">
+            {classResultImgUrl && (
+              <img
+                className="img"
+                src={classResultImgUrl}
+                alt="classResultImgUrl"
+              />
+            )}
+          </div>
         </div>
         <div className="half-area">
           <label className="upload-input-label">
-            <span>(hooks形式的conponent)添加图片</span>
+            <span>(hooks形式的component)添加图片</span>
             <input
               type="file"
               accept="image/jpeg,image/jpg,image/png"
@@ -67,6 +113,15 @@ class App extends Component {
               onChange={this.handleHooksFileChange}
             />
           </label>
+          <div className="img-container">
+            {hooksResultImgUrl && (
+              <img
+                className="img"
+                src={hooksResultImgUrl}
+                alt="classResultImgUrl"
+              />
+            )}
+          </div>
         </div>
 
         {classModalVisible && (
@@ -75,6 +130,17 @@ class App extends Component {
             onClose={() => {
               this.setState({ classModalVisible: false })
             }}
+            onSubmit={this.handleGetResultImgUrl('classResultImgUrl')}
+          />
+        )}
+
+        {hooksModalVisible && (
+          <HooksCropperModal
+            uploadedImageFile={hooksModalFile}
+            onClose={() => {
+              this.setState({ hooksModalVisible: false })
+            }}
+            onSubmit={this.handleGetResultImgUrl('hooksResultImgUrl')}
           />
         )}
       </div>

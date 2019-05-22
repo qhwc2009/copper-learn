@@ -9,7 +9,8 @@ import './ClassCropperModal.scss'
 export default class ClassCropperModal extends Component {
   static propTypes = {
     uploadedImageFile: PropTypes.object.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -33,15 +34,15 @@ export default class ClassCropperModal extends Component {
     if (!this.state.submitting) {
       // let url = `/homepage_images` // 你要上传的url
       // 拿到文件名
-      let filename = this.props.uploadedImageFile.name
+      // let filename = this.props.uploadedImageFile.name
 
       console.log('正在上传图片')
       // TODO: 这里可以尝试修改上传图片的尺寸
       this.cropper.getCroppedCanvas().toBlob(async blob => {
-        // 创造提交表单数据对象
-        const formData = new FormData()
-        // 添加要上传的文件
-        formData.append('file', blob, filename)
+        // // 创造提交表单数据对象
+        // const formData = new FormData()
+        // // 添加要上传的文件
+        // formData.append('file', blob, filename)
         // 提示开始上传 (因为demo没有后端server, 所以这里代码我注释掉了, 这里是上传到服务器并拿到返回数据的代码)
         // this.setState({submitting: true})
         // 上传图片
@@ -50,6 +51,10 @@ export default class ClassCropperModal extends Component {
         // console.log(resp)
         // 提示上传完毕
         // this.setState({submitting: false})
+
+        //把选中裁切好的的图片传出去
+        this.props.onSubmit(blob);
+
         // 关闭弹窗
         this.props.onClose()
       })

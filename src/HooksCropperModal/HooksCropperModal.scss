@@ -1,0 +1,62 @@
+.hooks-cropper-modal {
+  position: fixed;
+  background-color: rgba(#000000, 0.3);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-panel {
+    width: 880px;
+    height: 500px;
+    background: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .button-row {
+      height: 50px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      .submit-button {
+        padding: 0 20px;
+        height: 100%;
+        color: #383838;
+        font-size: 14px;
+      }
+    }
+
+    .cropper-container-container {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      height: 100%;
+
+      .cropper-container {
+        flex: 0 0 600px;
+        margin-right: 20px;
+        .cropper {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .preview-container {
+        flex: 1;
+        display: flex;
+        align-items: flex-end;
+        .cropper-preview {
+          width: 180px;
+          height: 180px;
+          overflow: hidden;
+          border: 1px solid #383838;
+        }
+      }
+    }
+  }
+}
